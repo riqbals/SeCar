@@ -182,13 +182,13 @@ export default function Home() {
             <div className="bg-[#293A61] text-white p-3 rounded-xl min-w-[140px]">
               <p>Pinrang →</p>
               <p className="font-bold">Makassar</p>
-              <p className="text-xs opacity-70">Rp.150.000 • 3 penumpang</p>
+              <p className="text-xs opacity-70">Rp.450.000 • 3 penumpang</p>
             </div>
 
             <div className="bg-[#293A61] text-white p-3 rounded-xl min-w-[140px]">
               <p>Makassar →</p>
               <p className="font-bold">Wajo</p>
-              <p className="text-xs opacity-70">Rp.200.000 • 2 penumpang</p>
+              <p className="text-xs opacity-70">Rp.300.000 • 2 penumpang</p>
             </div>
 
           </div>
