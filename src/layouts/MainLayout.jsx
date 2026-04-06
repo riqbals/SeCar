@@ -12,7 +12,7 @@ export default function MainLayout({ children }) {
   const location = useLocation();
 
   // active state 
-  const isHome = location.pathname === "/";
+  const isHome = location.pathname === "/" || location.pathname === "/home";
   const isTicket = location.pathname === "/pesanan";
   const isChat = location.pathname === "/pesan";
   const isNotif = location.pathname === "/notifikasi";
@@ -22,7 +22,7 @@ export default function MainLayout({ children }) {
     <div className="border-t flex justify-around items-center py-2 text-xs">
 
       {/* FRAME HP */}
-      <div className="w-full max-w-sm bg-white min-h-screen rounded-2xl shadow-lg flex flex-col">
+      <div className="relative w-full max-w-sm bg-white min-h-screen rounded-2xl shadow-lg flex flex-col">
 
         {/* HEADER */}
         <div className="flex items-center gap-2 px-4 py-3 border-b">
@@ -33,16 +33,16 @@ export default function MainLayout({ children }) {
         </div>
 
         {/* CONTENT */}
-        <div className="flex-1 p-4 overflow-y-auto">
+        <div className="flex-1 p-4 overflow-y-auto pb-20">
           {children}
         </div>
 
         {/* BOTTOM NAVBAR */}
-        <div className="border-t flex justify-around items-center py-2 text-xs bg-white">
+        <div className="absolute bottom-0 left-0 w-full max-w-sm border-t flex justify-around items-center py-2 text-xs bg-white">
 
         <Link to="/" className="flex flex-col items-center justify-center flex-1 gap-1 h-14">
             <HomeIcon active={isHome} />
-            <p className={`${isHome ? "text-[#293A61]" : "text-gray-400"} leading-none`}>
+            <p className={`${isHome ? "text-[#3868D5]" : "text-gray-400"} leading-none`}>
             Beranda
             </p>
         </Link>

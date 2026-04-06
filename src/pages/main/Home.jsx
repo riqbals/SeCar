@@ -173,7 +173,7 @@ export default function Home() {
         {/* PERJALANAN TERAKHIR */}
         <div>
           <div className="flex justify-between">
-            <h3 className="font-semibold">Perjalanan Terakhir</h3>
+            <h3 className="font-bold">Perjalanan Terakhir</h3>
             <span className="text-blue-500 text-sm cursor-pointer">Hapus</span>
           </div>
 
