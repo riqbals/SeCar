@@ -38,8 +38,7 @@ export default function MainLayout({ children }) {
         </div>
 
         {/* BOTTOM NAVBAR */}
-        <div className="absolute bottom-0 left-0 w-full max-w-sm border-t flex justify-around items-center py-2 text-xs bg-white">
-
+        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-sm border-t flex justify-around items-center py-2 text-xs bg-white/90 backdrop-blur-md z-50 shadow-[0_-2px_10px_rgba(0,0,0,0.1)]">
         <Link to="/" className="flex flex-col items-center justify-center flex-1 gap-1 h-14">
             <HomeIcon active={isHome} />
             <p className={`${isHome ? "text-[#3868D5]" : "text-gray-400"} leading-none`}>
