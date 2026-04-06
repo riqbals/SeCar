@@ -2,18 +2,100 @@ import MainLayout from "../../layouts/MainLayout";
 import { FaMapMarkerAlt, FaUser } from "react-icons/fa";
 import { MdAccessTime } from "react-icons/md";
 import { FiSearch } from "react-icons/fi";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+  const navigate = useNavigate();
+
+  const [pickup, setPickup] = useState("");
+  const [destination, setDestination] = useState("");
+  const [date, setDate] = useState("");
+  const [passenger, setPassenger] = useState(1);
+  const [openDropdown, setOpenDropdown] = useState(null);
+
+  const locations = [
+    "Makassar",
+    "Pinrang",
+    "Bone",
+    "Camba",
+    "Parepare",
+    "Palopo",
+    "Barru",
+    "Maros",
+    "Toraja",
+    "Wajo"
+  ];
+
+  // PROTECT LOGIN
+  useEffect(() => {
+    const isLogin = localStorage.getItem("isLogin");
+    if (!isLogin) navigate("/login");
+  }, [navigate]);
+
+  // CLOSE DROPDOWN SAAT KLIK LUAR
+  useEffect(() => {
+    const handleClickOutside = () => setOpenDropdown(null);
+    window.addEventListener("click", handleClickOutside);
+    return () => window.removeEventListener("click", handleClickOutside);
+  }, []);
+
+  // COMPONENT DROPDOWN
+  const Dropdown = ({ value, setValue, placeholder, icon, color }) => {
+    return (
+      <div className="relative">
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+            setOpenDropdown(openDropdown === placeholder ? null : placeholder);
+          }}
+          className="flex items-center bg-white px-3 py-3 rounded-lg gap-3 cursor-pointer"
+        >
+          <span className={color}>{icon}</span>
+
+          <span className={`flex-1 ${value ? "text-black" : "text-gray-400"}`}>
+            {value || placeholder}
+          </span>
+
+          <span
+            className={`transition-transform ${
+              openDropdown === placeholder ? "rotate-180" : ""
+            }`}
+          >
+            ▼
+          </span>
+        </div>
+
+        {openDropdown === placeholder && (
+          <div className="absolute z-50 mt-2 w-full bg-white text-black rounded-xl shadow-lg max-h-48 overflow-y-auto">
+            {locations.map((loc, i) => (
+              <div
+                key={i}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setValue(loc);
+                  setOpenDropdown(null);
+                }}
+                className="px-4 py-3 hover:bg-blue-100 cursor-pointer"
+              >
+                {loc}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
     <MainLayout>
+      <div className="flex flex-col gap-5">
 
-      <div className="flex flex-col gap-6">
-
-        {/* Header */}
+        {/* HEADER */}
         <div className="flex justify-between items-center">
           <div>
-            <p className="text-gray-500">Selamat pagi,</p>
-            <h2 className="text-2xl font-bold">Halo, Tri!</h2>
+            <p className="text-gray-400 text-sm">Selamat pagi,</p>
+            <h2 className="text-[22px] font-bold">Halo, User!</h2>
           </div>
 
           <div className="bg-[#293A61] text-white w-10 h-10 flex items-center justify-center rounded-full">
@@ -21,77 +103,115 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="bg-[#293A61] text-white p-6 rounded-2xl shadow-lg flex flex-col gap-4 max-w-xl">
+        {/* CARD SEARCH */}
+        <div className="bg-[#293A61] text-white p-5 rounded-2xl flex flex-col gap-4">
 
-  <p className="text-lg">Mau ke mana hari ini?</p>
+          <p className="text-sm">Mau ke mana hari ini?</p>
 
-  {/* Titik Penjemputan */}
-  <div className="flex items-center bg-white text-gray-400 px-4 py-3 rounded-xl gap-3">
-    <FaMapMarkerAlt className="text-blue-500" />
-    <span>Pilih titik penjemputan</span>
-  </div>
+          {/* PENJEMPUTAN */}
+          <Dropdown
+            value={pickup}
+            setValue={setPickup}
+            placeholder="Pilih penjemputan"
+            icon={<FaMapMarkerAlt />}
+            color="text-blue-500"
+          />
 
-  {/* Tujuan */}
-  <div className="flex items-center bg-white text-gray-400 px-4 py-3 rounded-xl gap-3">
-    <FaMapMarkerAlt className="text-red-500" />
-    <span>Pilih tujuan</span>
-  </div>
+          {/* TUJUAN */}
+          <Dropdown
+            value={destination}
+            setValue={setDestination}
+            placeholder="Pilih tujuan"
+            icon={<FaMapMarkerAlt />}
+            color="text-red-500"
+          />
 
-  {/* Jadwal & Penumpang */}
-  <div className="flex gap-3">
-
-    <div className="flex items-center gap-2 bg-white text-gray-400 px-3 py-2 rounded-lg text-sm">
-      <MdAccessTime />
-      Pilih jadwal
-    </div>
-
-    <div className="flex items-center gap-2 bg-white text-gray-400 px-3 py-2 rounded-lg text-sm">
-      <FaUser />
-      Jumlah penumpang
-    </div>
-
-  </div>
-
-  {/* Button */}
-  <button className="bg-gray-300 text-gray-600 py-3 rounded-xl flex items-center justify-center gap-2 cursor-not-allowed">
-    <FiSearch />
-    Cari Perjalanan
-  </button>
-
-</div>
-
-        {/* Perjalanan Terakhir */}
-        <div>
-          <div className="flex justify-between items-center mb-2">
-            <h3 className="font-semibold text-lg">Perjalanan Terakhir</h3>
-            <p className="text-blue-500 text-sm cursor-pointer">Hapus</p>
-          </div>
-
+          {/* JADWAL + PENUMPANG */}
           <div className="flex gap-3">
 
-            <div className="bg-[#293A61] text-white px-4 py-3 rounded-xl text-sm">
-              Pinrang → Makassar
+            {/* DATE */}
+            <div className="flex items-center gap-2 bg-white text-black px-3 py-2 rounded-lg text-sm flex-1">
+              <MdAccessTime />
+
+              <input
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                className="w-full outline-none bg-transparent"
+              />
             </div>
 
-            <div className="bg-[#293A61] text-white px-4 py-3 rounded-xl text-sm">
-              Makassar → Wajo
+            {/* PENUMPANG */}
+            <div className="flex items-center gap-2 bg-white text-black px-3 py-2 rounded-lg text-sm flex-1">
+              <FaUser />
+
+              <select
+                value={passenger}
+                onChange={(e) => setPassenger(e.target.value)}
+                className="w-full outline-none bg-transparent"
+              >
+                {[1,2,3,4,5,6,7,8].map((num) => (
+                  <option key={num} value={num}>
+                    {num} Penumpang
+                  </option>
+                ))}
+              </select>
+            </div>
+
+          </div>
+
+          {/* BUTTON */}
+          <button
+            className="bg-[#3868D5] py-3 rounded-xl flex items-center justify-center gap-2 font-bold text-[18px] shadow-md"
+          >
+            <FiSearch />
+            Cari Perjalanan
+          </button>
+
+        </div>
+
+        {/* PERJALANAN TERAKHIR */}
+        <div>
+          <div className="flex justify-between">
+            <h3 className="font-semibold">Perjalanan Terakhir</h3>
+            <span className="text-blue-500 text-sm cursor-pointer">Hapus</span>
+          </div>
+
+          <div className="flex gap-3 mt-2 overflow-x-auto">
+
+            <div className="bg-[#293A61] text-white p-3 rounded-xl min-w-[140px]">
+              <p>Pinrang →</p>
+              <p className="font-bold">Makassar</p>
+              <p className="text-xs opacity-70">Rp.150.000 • 3 penumpang</p>
+            </div>
+
+            <div className="bg-[#293A61] text-white p-3 rounded-xl min-w-[140px]">
+              <p>Makassar →</p>
+              <p className="font-bold">Wajo</p>
+              <p className="text-xs opacity-70">Rp.200.000 • 2 penumpang</p>
             </div>
 
           </div>
         </div>
 
-        {/* Promo */}
-        <div className="bg-blue-500 text-white p-6 rounded-2xl shadow-md max-w-xl">
-          <p className="text-sm">Diskon 50%</p>
-          <h3 className="text-xl font-bold">Perjalanan Pertama</h3>
+        {/* PROMO */}
+        <div className="bg-gradient-to-r from-blue-500 to-blue-700 text-white p-5 rounded-2xl">
+          <p className="text-sm">Promo Spesial</p>
 
-          <button className="mt-3 bg-white text-blue-600 px-4 py-2 rounded-lg">
+          <h3 className="text-xl font-bold mt-1">
+            Diskon 50%<br />Perjalanan Pertama
+          </h3>
+
+          <p className="text-xs mt-1 opacity-80">
+            Gunakan Kode : BARU50
+          </p>
+
+          <button className="mt-3 bg-white text-blue-600 px-4 py-2 rounded-lg text-sm font-semibold">
             Klaim Sekarang
           </button>
         </div>
 
       </div>
-
     </MainLayout>
   );
 }

@@ -22,12 +22,14 @@ export default function MainLayout({ children }) {
     <div className="border-t flex justify-around items-center py-2 text-xs">
 
       {/* FRAME HP */}
-      <div className="w-full max-w-sm bg-white min-h-screen rounded-2xl shadow-lg overflow-hidden flex flex-col">
+      <div className="w-full max-w-sm bg-white min-h-screen rounded-2xl shadow-lg flex flex-col">
 
         {/* HEADER */}
         <div className="flex items-center gap-2 px-4 py-3 border-b">
           <img src={logo} alt="SeCar Logo" className="w-8 h-8" />
-          <h1 className="font-bold text-[#293A61]">SeCar</h1>
+          <h1 className="text-[15px] font-bold text-[#293A61] drop-shadow-[0_2px_2px_rgba(0,0,0,0.25)]">
+            SeCar
+          </h1>
         </div>
 
         {/* CONTENT */}

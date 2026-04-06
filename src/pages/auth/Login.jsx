@@ -23,7 +23,7 @@ export default function Login() {
 
   const handleLogin = () => {
     localStorage.setItem("isLogin", "true");
-    navigate("/");
+    navigate("/home");
   };
 
   return (
@@ -84,19 +84,41 @@ export default function Login() {
         {/* ================= PILIH ROLE ================= */}
         {tab === "daftar" && !role && (
           <>
+            {/* DRIVER */}
             <button
               onClick={() => setRole("sopir")}
-              className="flex items-center gap-2 border p-2 rounded-lg text-[24px] font-bold"
+              className={`flex items-center gap-2 border p-2 rounded-lg text-[24px] font-bold transition-all duration-200 group
+                ${
+                  role === "sopir"
+                    ? "bg-[#3868D5] text-white"
+                    : "bg-white text-gray-700 hover:bg-[#3868D5] hover:text-white"
+                }`}
             >
-              <img src={carIcon} className="w-5 h-5" />
+              <img
+                src={carIcon}
+                className={`w-5 h-5 transition-all ${
+                  role === "sopir" ? "invert brightness-0" : "group-hover:invert group-hover:brightness-0"
+                }`}
+              />
               Driver
             </button>
 
+            {/* PENUMPANG */}
             <button
               onClick={() => setRole("penumpang")}
-              className="flex items-center gap-2 border p-2 rounded-lg text-[24px] font-bold"
+              className={`flex items-center gap-2 border p-2 rounded-lg text-[24px] font-bold transition-all duration-200 group
+                ${
+                  role === "penumpang"
+                    ? "bg-[#3868D5] text-white"
+                    : "bg-white text-gray-700 hover:bg-[#3868D5] hover:text-white"
+                }`}
             >
-              <img src={userIcon} className="w-5 h-5" />
+              <img
+                src={userIcon}
+                className={`w-5 h-5 transition-all ${
+                  role === "penumpang" ? "invert brightness-0" : "group-hover:invert group-hover:brightness-0"
+                }`}
+              />
               Penumpang
             </button>
           </>
