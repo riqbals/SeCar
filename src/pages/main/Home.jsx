@@ -160,9 +160,16 @@ export default function Home() {
 
           </div>
 
-          {/* BUTTON */}
+          {/* BUTTON CARI PERJALANAN*/}
           <button
-            className="bg-[#3868D5] py-3 rounded-xl flex items-center justify-center gap-2 font-bold text-[18px] shadow-md"
+            onClick={() => navigate("/hasil")}
+            disabled={!pickup || !destination || !date}
+            className={`py-3 rounded-xl flex items-center justify-center gap-2 font-bold text-[18px] shadow-md
+              ${
+                pickup && destination && date
+                  ? "bg-[#3868D5] text-white"
+                  : "bg-gray-400 text-gray-200 cursor-not-allowed"
+              }`}
           >
             <FiSearch />
             Cari Perjalanan
